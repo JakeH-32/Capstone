@@ -1,5 +1,4 @@
 import sys
-import keyboard
 from time import sleep
 from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
@@ -20,9 +19,6 @@ class QuestionScreen(QDialog):
         self.QuestionLabel.setText(questiontext)
         self.submit.clicked.connect(self.gotoresult)
         self.hintButton.clicked.connect(self.showhint)
-
-        if keyboard.is_pressed("enter"):
-            self.gotoresult()
 
     # Name: gotoresult
     # Params: self, question
@@ -57,7 +53,7 @@ class QuestionScreen(QDialog):
     def showhint(self):
         sleep(.1)
         # Temporary hint (will be dynamic from question object later)
-        hinttext = "Here is the hint for this question!"
+        hinttext = "Here is the hint for this question!"                    # Hint Text
         # Set hintLabel text to hintText
         self.hintLabel.setText(hinttext)
 
