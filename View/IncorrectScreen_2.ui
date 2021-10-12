@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(77, 202, 107, 255), stop:1 rgba(255, 255, 255, 255))
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(206, 12, 12, 255), stop:1 rgba(255, 255, 255, 255))
 }</string>
   </property>
   <widget class="QLabel" name="QuestionLabel">
@@ -27,14 +27,22 @@ background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba
      <height>78</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">QWidget{
-font: 25 12pt &quot;Calibri&quot;;
 background-color: &quot;lightgrey&quot;
 }</string>
    </property>
    <property name="text">
-    <string>Good Job :)</string>
+    <string>Incorrect Answer - Try Again</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -49,9 +57,14 @@ background-color: &quot;lightgrey&quot;
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">QWidget{
-font: 25 12pt &quot;Calibri&quot;;
 background-color: &quot;lightgrey&quot;
 }</string>
    </property>
