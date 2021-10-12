@@ -4,9 +4,9 @@ from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
 from PyQt6 import QtWidgets
 
-QScreen = "View/QuestionScreen.ui"
-CScreen = "View/CorrectScreen_2.ui"
-IScreen = "View/IncorrectScreen_2.ui"
+QScreen = "../View/QuestionScreen.ui"
+CScreen = "../View/CorrectScreen_2.ui"
+IScreen = "../View/IncorrectScreen_2.ui"
 questiontext = "This is the question"
 
 
