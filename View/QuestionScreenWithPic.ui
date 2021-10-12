@@ -15,16 +15,16 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(55, 151, 202, 255), stop:1 rgba(255, 255, 255, 255))
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(54, 149, 231, 255), stop:1 rgba(255, 255, 255, 255))
 }</string>
   </property>
   <widget class="QLabel" name="QuestionLabel">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>40</y>
-     <width>299</width>
-     <height>78</height>
+     <x>60</x>
+     <y>120</y>
+     <width>281</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -46,7 +46,7 @@ background-color: &quot;lightgrey&quot;
      <x>120</x>
      <y>230</y>
      <width>151</width>
-     <height>28</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -63,7 +63,7 @@ background-color: &quot;lightgrey&quot;
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>150</y>
+     <y>180</y>
      <width>171</width>
      <height>22</height>
     </rect>
@@ -104,9 +104,9 @@ background-color: &quot;lightgrey&quot;
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>190</y>
+     <y>210</y>
      <width>211</width>
-     <height>20</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -130,9 +130,9 @@ background-color: rgba(255, 255, 255, 0);
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>120</y>
+     <y>160</y>
      <width>171</width>
-     <height>31</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="font">
@@ -153,6 +153,19 @@ background-color:rgba(255, 255, 255, 0)
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>10</y>
+     <width>151</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
   </widget>
  </widget>
