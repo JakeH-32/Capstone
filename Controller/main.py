@@ -1,4 +1,5 @@
 import sys
+import time
 from time import sleep
 from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
@@ -12,11 +13,21 @@ questiontext = "This is the question"
 
 # QuestionScreen Class
 # Functions: gotoresult, showhint
+def attempttime(self):
+    # Sets qtime to amount of seconds between attempts
+    qtime = '%.2f' % (time.time() - self.initialtime)
+    # Truncated to hundredths
+    print("Seconds between attempts:")
+    print(qtime)
+    self.initialtime = time.time()
+    return qtime
+
 class QuestionScreen(QDialog):
     def __init__(self):
         super(QuestionScreen, self).__init__()
         loadUi(QScreen, self)
         self.QuestionLabel.setText(questiontext)
+        self.QuestionLabel.setText(self.problem)
         self.submit.clicked.connect(self.gotoresult)
         self.hintButton.clicked.connect(self.showhint)
 
