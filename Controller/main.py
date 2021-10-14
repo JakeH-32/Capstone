@@ -1,4 +1,5 @@
 import sys
+import time
 from time import sleep
 
 import pandas as pd
@@ -11,6 +12,17 @@ QScreen = "../View/QuestionScreen.ui"
 CScreen = "../View/CorrectScreen_2.ui"
 IScreen = "../View/IncorrectScreen_2.ui"
 
+# QuestionScreen Class
+# Functions: gotoresult, showhint
+def attempttime(self):
+    # Sets qtime to amount of seconds between attempts
+    qtime = '%.2f' % (time.time() - self.initialtime)
+    # Truncated to hundredths
+    print("Seconds between attempts:")
+    print(qtime)
+    self.initialtime = time.time()
+    return qtime
+
 class QuestionScreen(QDialog):
     def __init__(self, student):
         if self.data is None:
@@ -18,7 +30,7 @@ class QuestionScreen(QDialog):
         self.problem = student.problem
         self.answer = student.answer
         super(QuestionScreen, self).__init__()
-        loadUi("QuestionScreen.ui", self)
+        loadUi(QScreen, self)
         self.QuestionLabel.setText(self.problem)
         self.submit.clicked.connect(self.gotoresult)
         self.hintButton.clicked.connect(self.showhint)
@@ -36,7 +48,7 @@ class QuestionScreen(QDialog):
         elif useranswer == questionanswer:
             sleep(.1)
             correct = CorrectScreen()
-            
+
             widget.addWidget(correct)
             widget.setCurrentIndex(widget.currentIndex() + 1)
         else:
@@ -53,7 +65,7 @@ class QuestionScreen(QDialog):
         self.data["incorrect"].append(0)
         self.data["correct"].append(0)
         self.hintLabel.setText(hinttext)
-    
+
     def showQuestion(self, question):
         sleep(.1)
         questiontext = question
@@ -62,7 +74,7 @@ class QuestionScreen(QDialog):
 class WrongScreen(QDialog):
     def __init__(self):
         super(WrongScreen, self).__init__()
-        loadUi("IncorrectScreen_2.ui", self)
+        loadUi(IScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
     def returntoquestion(self):
@@ -75,10 +87,11 @@ class WrongScreen(QDialog):
         widget.addWidget(question)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+
 class CorrectScreen(QDialog):
     def __init__(self):
         super(CorrectScreen, self).__init__()
-        loadUi("CorrectScreen_2.ui", self)
+        loadUi(CScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
     def returntoquestion(self):
@@ -95,7 +108,6 @@ class CorrectScreen(QDialog):
         question = QuestionScreen(student)
         widget.addWidget(question)
         widget.setCurrentIndex(widget.currentIndex() + 1)
-
 
 
 # main
