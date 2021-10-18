@@ -12,13 +12,15 @@ CScreen = "../View/CorrectScreen_2.ui"
 IScreen = "../View/IncorrectScreen_2.ui"
 
 class QuestionScreen(QDialog):
-    def __init__(self, student):
-        if self.data is None:
+    def __init__(self, student, start):
+        self.start = start
+        if self.start:
             self.data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
+            self.start = False
         self.problem = student.problem
         self.answer = student.answer
         super(QuestionScreen, self).__init__()
-        loadUi("QuestionScreen.ui", self)
+        loadUi(QScreen, self)
         self.QuestionLabel.setText(self.problem)
         self.submit.clicked.connect(self.gotoresult)
         self.hintButton.clicked.connect(self.showhint)
@@ -62,7 +64,7 @@ class QuestionScreen(QDialog):
 class WrongScreen(QDialog):
     def __init__(self):
         super(WrongScreen, self).__init__()
-        loadUi("IncorrectScreen_2.ui", self)
+        loadUi(IScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
     def returntoquestion(self):
@@ -78,7 +80,7 @@ class WrongScreen(QDialog):
 class CorrectScreen(QDialog):
     def __init__(self):
         super(CorrectScreen, self).__init__()
-        loadUi("CorrectScreen_2.ui", self)
+        loadUi(CScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
     def returntoquestion(self):
@@ -101,7 +103,7 @@ class CorrectScreen(QDialog):
 # main
 student = model.initialize()
 app = QApplication(sys.argv)
-question = QuestionScreen(student)
+question = QuestionScreen(student, True)
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(question)
 widget.setFixedHeight(300)
