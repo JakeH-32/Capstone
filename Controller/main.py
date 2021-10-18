@@ -27,6 +27,7 @@ class QuestionScreen(QDialog):
     def __init__(self, student, start):
         self.start = start
         if self.start:
+            self.initialtime = time.time()
             self.data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
             self.start = False
         self.problem = student.problem
@@ -103,11 +104,10 @@ class CorrectScreen(QDialog):
         self.data["incorrect"].append(0)
         self.data["correct"].append(1)
         df = pd.DataFrame(self.data)
-        self.data = None
         student.updateStudent(df)
         student.nextQ()
         sleep(.1)
-        question = QuestionScreen(student)
+        question = QuestionScreen(student, True)
         widget.addWidget(question)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
