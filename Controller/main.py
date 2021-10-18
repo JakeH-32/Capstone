@@ -24,9 +24,11 @@ def attempttime(self):
     return qtime
 
 class QuestionScreen(QDialog):
-    def __init__(self, student):
-        if self.data is None:
+    def __init__(self, student, start):
+        self.start = start
+        if self.start:
             self.data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
+            self.start = False
         self.problem = student.problem
         self.answer = student.answer
         super(QuestionScreen, self).__init__()
@@ -113,7 +115,7 @@ class CorrectScreen(QDialog):
 # main
 student = model.initialize()
 app = QApplication(sys.argv)
-question = QuestionScreen(student)
+question = QuestionScreen(student, True)
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(question)
 widget.setFixedHeight(300)
