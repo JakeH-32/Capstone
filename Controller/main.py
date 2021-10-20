@@ -7,6 +7,7 @@ from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
 from PyQt6 import QtWidgets
 import model
+from modelBuilder import Student
 
 QScreen = "../View/QuestionScreen.ui"
 CScreen = "../View/CorrectScreen_2.ui"
@@ -17,12 +18,13 @@ IScreen = "../View/IncorrectScreen_2.ui"
 def attempttime(initialtime, answer):
     # Sets qtime to amount of seconds between attempts
     qtime = '%.2f' % (time.time() - initialtime)
+    qtimedouble = float(time.time() - initialtime)
     # Truncated to hundredths
     print("Seconds between attempts:")
     print(qtime)
     print("Answer:")
     print(answer)
-    return qtime
+    return qtimedouble
 
 
 class QuestionScreen(QDialog):
@@ -89,11 +91,11 @@ class WrongScreen(QDialog):
 
     def returntoquestion(self):
         sleep(.1)
-        question = QuestionScreen(False)
         data["duration"].append(attempttime(self.initialtime, self.answer))
         data["hint"].append(0)
         data["incorrect"].append(1)
         data["correct"].append(0)
+        question = QuestionScreen(False)
         widget.addWidget(question)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -111,8 +113,8 @@ class CorrectScreen(QDialog):
         data["hint"].append(0)
         data["incorrect"].append(0)
         data["correct"].append(1)
-        df = pd.DataFrame(self.data)
-        student.updateStudent(df)
+        df = pd.DataFrame(data)
+        student.updateStudent(df)  # CURRENT ISSUE
         student.nextQ(OGdata, pairs, distributions)
         sleep(.1)
         question = QuestionScreen(True)
