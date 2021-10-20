@@ -14,4 +14,4 @@ def initialize():
     student.updateStudent(questionData)
     student.nextQ(data, pairs, distributions)
 
-    return student
+    return student, data, pairs, distributions

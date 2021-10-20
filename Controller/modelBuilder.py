@@ -69,7 +69,10 @@ def distributionBuilder(data):
 class Student:
     def __init__(self, data):
         self.data = data
-        self.means = 0
+        self.means = self.data.mean()
+        self.duration = self.means.duration
+        self.incorrect = self.means.incorrect
+        self.hint = self.means.hint
         self.problem = ""
         self.answer = ""
 
