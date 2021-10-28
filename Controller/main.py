@@ -7,7 +7,11 @@ from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
 from PyQt6 import QtWidgets
 import model
-from modelBuilder import Student
+from student import Student
+import fuzzywuzzy
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+
 
 QScreen = "../View/QuestionScreen.ui"
 CScreen = "../View/CorrectScreen_2.ui"
@@ -15,10 +19,10 @@ IScreen = "../View/IncorrectScreen_2.ui"
 
 # QuestionScreen Class
 # Functions: gotoresult, showhint
-def attempttime(initialtime, answer):
+def attempttime(initialtime, endtime, answer):
     # Sets qtime to amount of seconds between attempts
-    qtime = '%.2f' % (time.time() - initialtime)
-    qtimedouble = float(time.time() - initialtime)
+    qtime = '%.2f' % (endtime - initialtime)
+    qtimedouble = float(endtime - initialtime)
     # Truncated to hundredths
     print("Seconds between attempts:")
     print(qtime)
@@ -53,7 +57,17 @@ class QuestionScreen(QDialog):
         if useranswer == "":
             sleep(.1)
             self.emptyans.setText("Please enter an answer")
-        elif useranswer == questionanswer:
+        correct = False
+        try:
+            useranswernum = float(useranswer)
+            error = abs(float(self.answer) - useranswernum) / abs(float(self.answer))
+            if error < 0.005:
+                correct = True
+        except:
+            ratio = fuzz.token_sort_ratio(self.answer.lower().strip(), useranswer.lower().strip())
+            if ratio > 75:
+                correct = True
+        if correct:
             sleep(.1)
             correct = CorrectScreen(self.initialtime)
 
@@ -69,10 +83,12 @@ class QuestionScreen(QDialog):
     def showhint(self):
         sleep(.1)
         hinttext = "Here is the hint for this question!"
-        data["duration"].append(attempttime(self))
+        self.endtime = time.time()
+        data["duration"].append(attempttime(self.initialtime, self.endtime, self.answer))
         data["hint"].append(1)
         data["incorrect"].append(0)
         data["correct"].append(0)
+        self.initialtime = time.time()
         self.hintLabel.setText(hinttext)
 
     def showQuestion(self, question):
@@ -84,6 +100,7 @@ class WrongScreen(QDialog):
     def __init__(self, initialtime, answer):
         self.initialtime = initialtime
         self.answer = answer
+        self.endtime = time.time()
         super(WrongScreen, self).__init__()
         loadUi(IScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
@@ -91,7 +108,7 @@ class WrongScreen(QDialog):
 
     def returntoquestion(self):
         sleep(.1)
-        data["duration"].append(attempttime(self.initialtime, self.answer))
+        data["duration"].append(attempttime(self.initialtime, self.endtime, self.answer))
         data["hint"].append(0)
         data["incorrect"].append(1)
         data["correct"].append(0)
@@ -103,19 +120,20 @@ class WrongScreen(QDialog):
 class CorrectScreen(QDialog):
     def __init__(self, initialtime):
         self.initialtime = initialtime
+        self.endtime = time.time()
         super(CorrectScreen, self).__init__()
         loadUi(CScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
     def returntoquestion(self):
         sleep(.1)
-        data["duration"].append(attempttime(self.initialtime,"Nice Work"))
+        data["duration"].append(attempttime(self.initialtime,self.endtime, "Nice Work"))
         data["hint"].append(0)
         data["incorrect"].append(0)
         data["correct"].append(1)
         df = pd.DataFrame(data)
         student.updateStudent(df)  # CURRENT ISSUE
-        student.nextQ(OGdata, pairs, distributions)
+        student.nextQ(originalData, QApairs, distributions)
         sleep(.1)
         question = QuestionScreen(True)
         widget.addWidget(question)
@@ -123,15 +141,13 @@ class CorrectScreen(QDialog):
 
 
 # main
-global student, OGdata, pairs, distributions, data
+global student, originalData, QApairs, distributions, data
 data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
-student, OGdata, pairs, distributions = model.initialize()
+student, originalData, QApairs, distributions = model.initialize()
 app = QApplication(sys.argv)
 question = QuestionScreen(True)
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(question)
-widget.setFixedHeight(300)
-widget.setFixedWidth(400)
 widget.show()
 try:
     sys.exit(app.exec())

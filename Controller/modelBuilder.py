@@ -2,6 +2,13 @@ import pandas as pd
 import numpy as np
 import random
 
+def getStudentData(data):
+    stud = "Stu_fe96fe63d83aa63c4ec667167fc7f1ce"
+    df = data[["step", "problem_id", "stud_id", "duration", "hint", "incorrect", "correct"]]
+    newdf = df[df["stud_id"] == stud]
+    studentData = newdf.iloc[0:10, :]
+    return studentData
+
 
 def importData():
     # Read in the CSVs, select variables, combine
@@ -9,8 +16,7 @@ def importData():
     raw_data056 = pd.read_csv("2005-06-WPI-Assistments-Math.csv",low_memory=False)
     raw_data056["problem_id"] = raw_data056["problem_id"] + max(raw_data04.problem_id)
     raw_data = pd.concat([raw_data056,raw_data04])
-    data = raw_data[["stud_id","duration","student_response_type","problem_id","step","attempt_num",
-                 "last_attempt","outcome","input","feedback"]]
+    data = raw_data[["stud_id","duration","problem_id","step","attempt_num", "last_attempt","outcome","input"]]
     data.reset_index(drop=True, inplace=True)
 
     # Create binary variables for hint, correct, incorrect
@@ -26,6 +32,9 @@ def importData():
     uniqueCorrect = correct.drop_duplicates(subset=['problem_id'])
     pairs = uniqueCorrect[["problem_id", "input"]]
     data = data[data.problem_id.isin(pairs.problem_id)]
+
+    import warnings
+    warnings.filterwarnings('ignore')
 
     return data, pairs
 
@@ -63,36 +72,4 @@ def distributionBuilder(data):
     problemDistsUpper.rename(columns={'duration': 'durationUpper', 'hint': 'hintUpper', 'incorrect': 'incorrectUpper'}, inplace=True)
     problemDists = pd.concat([problemDistsLower, problemDistsUpper], axis=1)
 
-    return problemDists, df
-
-
-class Student:
-    def __init__(self, data):
-        self.data = data
-        self.means = self.data.mean()
-        self.duration = self.means.duration
-        self.incorrect = self.means.incorrect
-        self.hint = self.means.hint
-        self.problem = ""
-        self.answer = ""
-
-    def updateStudent(self, lastQ):
-        self.data = self.data.append(lastQ)
-        self.means = self.data.mean()
-        self.duration = self.means.duration
-        self.incorrect = self.means.incorrect
-        self.hint = self.means.hint
-
-    def nextQ(self, data, pairs, problemDists):
-        # Determines a viable next question
-        EVdur = self.duration
-        EVinc = self.incorrect
-        EVhint = self.hint
-        viableProbs = problemDists[(EVdur < problemDists["durationUpper"]) & (EVhint < problemDists["hintUpper"]) & \
-                                   (problemDists["incorrectLower"] > EVinc)]
-        problemNum = random.choice(viableProbs.index.values.tolist())
-        self.problem = data[data["problem_id"]==problemNum].iloc[0]["step"].split(':')[-1].split("?")[0] + "?"
-        answer = pairs[pairs["problem_id"]==problemNum].iloc[0][1]
-        if answer[0] in ["A","B","C","D"]:
-            answer = answer[3:]
-        self.answer = answer
+    return problemDists
