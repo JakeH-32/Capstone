@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>727</height>
+    <width>1190</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -211,6 +211,9 @@ background-color: &quot;linen&quot;
          </property>
          <property name="text">
           <string>Submit</string>
+         </property>
+         <property name="shortcut">
+          <string>Return</string>
          </property>
         </widget>
        </item>
