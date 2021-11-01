@@ -7,11 +7,11 @@ from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
 from PyQt6 import QtWidgets
 import model
+
 from student import Student
 import fuzzywuzzy
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
-
 
 QScreen = "../View/QuestionScreen.ui"
 CScreen = "../View/CorrectScreen_2.ui"
@@ -23,6 +23,7 @@ def attempttime(initialtime, endtime, answer):
     # Sets qtime to amount of seconds between attempts
     qtime = '%.2f' % (endtime - initialtime)
     qtimedouble = float(endtime - initialtime)
+
     # Truncated to hundredths
     print("Seconds between attempts:")
     print(qtime)
@@ -83,6 +84,7 @@ class QuestionScreen(QDialog):
     def showhint(self):
         sleep(.1)
         hinttext = "Here is the hint for this question!"
+
         self.endtime = time.time()
         data["duration"].append(attempttime(self.initialtime, self.endtime, self.answer))
         data["hint"].append(1)
@@ -140,7 +142,7 @@ class CorrectScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
-# main
+# main]
 global student, originalData, QApairs, distributions, data
 data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
 student, originalData, QApairs, distributions = model.initialize()
