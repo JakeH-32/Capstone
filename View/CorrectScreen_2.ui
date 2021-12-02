@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>552</width>
-    <height>443</height>
+    <width>857</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(147, 255, 210), stop:1 rgba(255, 255, 255, 255))
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(0, 255, 127), stop:1 rgba(255, 255, 255, 255))
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
