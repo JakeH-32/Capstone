@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1190</width>
-    <height>720</height>
+    <width>1192</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,7 +129,7 @@ background-color: rgba(255, 255, 255, 0);
          <property name="font">
           <font>
            <family>Calibri</family>
-           <pointsize>14</pointsize>
+           <pointsize>18</pointsize>
            <weight>50</weight>
            <italic>false</italic>
            <bold>false</bold>
@@ -137,12 +137,11 @@ background-color: rgba(255, 255, 255, 0);
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-border-radius:20px;
 background-color: &quot;linen&quot;
 }</string>
          </property>
          <property name="frame">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -221,12 +220,12 @@ background-color: &quot;linen&quot;
          <property name="font">
           <font>
            <family>Calibri</family>
-           <pointsize>12</pointsize>
+           <pointsize>18</pointsize>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-border-radius:20px;
+
 background-color: &quot;linen&quot;
 }</string>
          </property>
@@ -259,7 +258,7 @@ background-color: &quot;linen&quot;
          <property name="font">
           <font>
            <family>Calibri</family>
-           <pointsize>14</pointsize>
+           <pointsize>18</pointsize>
            <weight>50</weight>
            <italic>false</italic>
            <bold>false</bold>
@@ -267,7 +266,7 @@ background-color: &quot;linen&quot;
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-border-radius:20px;
+
 background-color: &quot;linen&quot;
 }</string>
          </property>
@@ -350,6 +349,12 @@ background-color: &quot;linen&quot;
            <italic>false</italic>
            <bold>false</bold>
           </font>
+         </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
