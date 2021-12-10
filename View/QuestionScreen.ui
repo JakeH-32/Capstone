@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1190</width>
-    <height>720</height>
+    <width>1192</width>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -126,11 +126,22 @@ background-color: rgba(255, 255, 255, 0);
            <height>0</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>18</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-font: 25 12pt &quot;Calibri&quot;;
 background-color: &quot;linen&quot;
 }</string>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -191,6 +202,9 @@ background-color: &quot;linen&quot;
        </item>
        <item>
         <widget class="QPushButton" name="submit">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -203,9 +217,15 @@ background-color: &quot;linen&quot;
            <height>100</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>18</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-font: 25 12pt &quot;Calibri&quot;;
+
 background-color: &quot;linen&quot;
 }</string>
          </property>
@@ -235,9 +255,18 @@ background-color: &quot;linen&quot;
        </item>
        <item>
         <widget class="QToolButton" name="hintButton">
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>18</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-font: 25 12pt &quot;Calibri&quot;;
+
 background-color: &quot;linen&quot;
 }</string>
          </property>
@@ -312,14 +341,32 @@ background-color: &quot;linen&quot;
            <height>400</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>24</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-font: 25 12pt &quot;Calibri&quot;;
+border-radius:20px;
 background-color:&quot;linen&quot;
 }</string>
          </property>
          <property name="text">
           <string>This is where the question text will be.</string>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
