@@ -2,160 +2,130 @@ import sys
 import time
 from time import sleep
 
-import pandas as pd
+from PyQt6.QtGui import QPixmap
 from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import QDialog, QApplication
 from PyQt6 import QtWidgets
-import model
-import modelBuilder as mb
-
-from student import Student
-import fuzzywuzzy
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
 
 QScreen = "../View/QuestionScreen.ui"
+QScreenWithPic = "../View/QuestionScreenWithPic.ui"
+TransitionQCScreen = "../View/TransitionQC.ui"
 CScreen = "../View/CorrectScreen_2.ui"
 IScreen = "../View/IncorrectScreen_2.ui"
+questiontext = "This is the question"
+
 
 # QuestionScreen Class
 # Functions: gotoresult, showhint
-def attempttime(initialtime, endtime, answer):
+def attempttime(self):
     # Sets qtime to amount of seconds between attempts
-    qtime = '%.2f' % (endtime - initialtime)
-    qtimedouble = float(endtime - initialtime)
-
+    qtime = '%.2f' % (time.time() - self.initialtime)
     # Truncated to hundredths
     print("Seconds between attempts:")
     print(qtime)
-    print("Answer:")
-    print(answer)
-    return qtimedouble
-
+    self.initialtime = time.time()
+    return qtime
 
 class QuestionScreen(QDialog):
-    def __init__(self, start):
-        self.start = start
-        if self.start:  # new question
-            self.data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
-            self.start = False
-        # initialize time
-        self.initialtime = time.time()
-        self.problem = student.problem
-        self.answer = student.answer
+    def __init__(self):
         super(QuestionScreen, self).__init__()
         loadUi(QScreen, self)
-        self.QuestionLabel.setText(self.problem)
+        self.QuestionLabel.setText(questiontext)
+        # self.PicLabel.setPixmap(QPixmap(QPic))
+        # self.QuestionLabel.setText("This is the question text This is the question text This is the question text This is the question text This is the question text This is the question text This is the question text This is the question text")
         self.submit.clicked.connect(self.gotoresult)
         self.hintButton.clicked.connect(self.showhint)
 
-
+    # Name: gotoresult
+    # Params: self, question
+    # Compares text user inputs to the question answer.
+    # Shows corresponding screen for correct or incorrect.
     def gotoresult(self):
-        questionanswer = self.answer
+        # Temporary answer
+        questionanswer = "1"
+        # Get user answer from answerBox
+        # if self.Option1.clicked is True:
+        #     useranswer = self.Option1.text()
+        # elif self.Option2.clicked is True:
+        #     useranswer = self.Option2.text()
+        # elif self.Option3.clicked is True:
+        #     useranswer = self.Option3.text()
+        # elif self.Option4.clicked is True:
+        #     useranswer = self.Option4.text()
+        # else:
+        #     useranswer = ""
         useranswer = self.answerBox.text()
 
-        # Detect keystroke and remove empty ans text
 
+        # If empty
         if useranswer == "":
             sleep(.1)
+            # Tell student to enter an answer
             self.emptyans.setText("Please enter an answer")
-        correctness = False
-        try:
-            useranswernum = float(useranswer)
-            error = abs(float(self.answer) - useranswernum) / abs(float(self.answer))
-            if error < 0.005:
-                correctness = True
-        except:
-            ratio = fuzz.token_sort_ratio(self.answer.lower().strip(), useranswer.lower().strip())
-            if ratio > 75:
-                correctness = True
-        if correctness:
-            sleep(.1)
-            correct = CorrectScreen(self.initialtime)
-
+        # Else if correct answer, show correct screen
+        elif useranswer == questionanswer:
+            correct = CorrectScreen()
             widget.addWidget(correct)
             widget.setCurrentIndex(widget.currentIndex() + 1)
+
+        # Else must be incorrect, show incorrect screen
         else:
             sleep(.1)
-            wrong = WrongScreen(self.initialtime, self.answer)
+            wrong = IncorrectScreen()
             widget.addWidget(wrong)
             widget.setCurrentIndex(widget.currentIndex() + 1)
 
-
+    # Name: showhint
+    # Params: self, question
     def showhint(self):
         sleep(.1)
-        hinttext = "Here is the hint for this question!"
-
-        self.endtime = time.time()
-        data["duration"].append(attempttime(self.initialtime, self.endtime, self.answer))
-        data["hint"].append(1)
-        data["incorrect"].append(0)
-        data["correct"].append(0)
-        self.initialtime = time.time()
+        # Temporary hint (will be dynamic from question object later)
+        hinttext = "Here is the hint for this question!"                    # Hint Text
+        # Set hintLabel text to hintText
         self.hintLabel.setText(hinttext)
 
-    def showQuestion(self, question):
-        sleep(.1)
-        questiontext = question
 
-
-class WrongScreen(QDialog):
-    def __init__(self, initialtime, answer):
-        self.initialtime = initialtime
-        self.answer = answer
-        self.endtime = time.time()
-        super(WrongScreen, self).__init__()
+# Name: IncorrectScreen
+# Functions: __init__, return to question
+class IncorrectScreen(QDialog):
+    # Initialize incorrect screen
+    def __init__(self):
+        super(IncorrectScreen, self).__init__()
         loadUi(IScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
-
+    # Name: returntoquestion
+    # Params: self
+    # Returns to question screen from incorrect screen
     def returntoquestion(self):
-        sleep(.1)
-        data["duration"].append(attempttime(self.initialtime, self.endtime, self.answer))
-        data["hint"].append(0)
-        data["incorrect"].append(1)
-        data["correct"].append(0)
-        question = QuestionScreen(False)
+        sleep(.25)
+        question = QuestionScreen()
         widget.addWidget(question)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
+# Name: CorrectScreen
+# Functions: __init__, return to question
 class CorrectScreen(QDialog):
-    def __init__(self, initialtime):
-        self.initialtime = initialtime
-        self.endtime = time.time()
+    # Initialize correct screen
+    def __init__(self):
         super(CorrectScreen, self).__init__()
         loadUi(CScreen, self)
         self.submit.clicked.connect(self.returntoquestion)
 
+    # Name: returntoquestion
+    # Params: self
+    # Returns to question screen from incorrect screen
     def returntoquestion(self):
-        sleep(.1)
-        data["duration"].append(attempttime(self.initialtime,self.endtime, "Nice Work"))
-        data["hint"].append(0)
-        data["incorrect"].append(0)
-        data["correct"].append(1)
-        df = pd.DataFrame(data)
-        questionData = df.sum()
-        print(student.problem_id, questionData, QApairs, distributions, questionDifficulty)
-        question_id, question, answer = mb.nextQuestion(student.problem_id, df, QApairs, distributions, questionDifficulty)  # Current problem
-        print(question_id)
-        print(question)
-        print(answer)
-        student.problem_id = question_id
-        student.problem = question
-        student.answer = answer
-        sleep(.1)
-        question = QuestionScreen(True)
+        sleep(.25)
+        question = QuestionScreen()
         widget.addWidget(question)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
-# main
-global student, originalData, QApairs, questionDifficulty, distributions
-data = {"duration": [], "hint": [], "incorrect": [], "correct": []}
-student, originalData, QApairs, questionDifficulty, distributions = model.initialize()
+# Main
 app = QApplication(sys.argv)
-question = QuestionScreen(True)
+question = QuestionScreen()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(question)
 widget.show()
